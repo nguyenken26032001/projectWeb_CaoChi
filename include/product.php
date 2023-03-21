@@ -39,80 +39,91 @@ if (isset($_GET['id_danhmuc'])) {
 ?>
 
 <div class="container-fluid">
-  <br>
-  <div class="row padding">
-    <div class="col-lg-3">
-      <ul class="list-group bg-secondary">
-        <h2 class="text-center text-light">
-        Danh mục sản phẩm
-      </h2>
-       <a href="?pages=product"><li class="list-group-item d-flex justify-content-between align-items-center">
-          Tất cả sản phẩm
-        </li></a>
-      <?php foreach($danhmuc as $danhm): ?>
-       <a href="?pages=product&id_danhmuc=<?=$danhm['id_danhmuc']?>"> <li class="list-group-item d-flex justify-content-between align-items-center">
-          <?=$danhm['ten_danhmuc']?>
-        </li></a>
-       <?php endforeach ?>
-      </ul>
-    </div>
-    <div class="col-lg-9">
-      <?php if (isset($_GET['keyword'])) { ?>
-        <h2 class="text-center"  >Kết quả tìm kiếm cho: <?php echo $keyword ?></h2>
-      <?php } elseif (isset($_GET['danhmuc'])) { ?>
-        <h2>Thời trang <?php echo $danh_mu_c['ten_danhmuc'] ?></h2>
-      <?php } else { ?>
-        <h2 class="text-center bg-secondary text-light" style="border-radius: 5px;" >Danh sách các sản phẩm</h2>
-      <?php } ?><br>
-      <div class="row">
-        <?php foreach ($product as $key => $value) { ?>
-          <a data-toggle="tooltip" title="Chi tiết sản phẩm !" href="?pages=chitietsanpham&sanpham=<?php echo $value['id_product'] ?>">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-              <div class="card text-left">
-                <img class="img_product" src="<?php echo $value['anh_sanpham'] ?>" alt="">
-                <div class="card-body text-center">
-                  <h4 class="card-title"><?php echo $value['ten_sanpham'] ?></h4>
-                  <?php if ($value['gia_khuyenmai'] > 0) { ?>
-                    <p>
-                      <span><del><?php echo number_format($value['gia_sanpham']) ?> VND</del></span>&nbsp; Giảm:
-                      <?php $khuyenmai = 100 - (($value['gia_khuyenmai']) / ($value['gia_sanpham']) * 100) ?>
-                      <?php echo number_format($khuyenmai) ?>%
-                    </p>
-                    <p>
-                      <span><?php echo number_format($value['gia_khuyenmai']) ?> VND</span>
-                    </p>
-                  <?php } else { ?>
-                    <p>
-                      <span><?php echo number_format($value['gia_sanpham']) ?> VND</span>
+    <br>
+    <div class="row padding">
+        <div class="col-lg-3">
+            <ul class="list-group bg-secondary">
+                <h2 class="text-center text-light">
+                    Danh mục sản phẩm
+                </h2>
+                <a href="?pages=product">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Tất cả sản phẩm
+                    </li>
+                </a>
+                <?php foreach ($danhmuc as $danhm) : ?>
+                <a href="?pages=product&id_danhmuc=<?= $danhm['id_danhmuc'] ?>">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?= $danhm['ten_danhmuc'] ?>
+                    </li>
+                </a>
+                <?php endforeach ?>
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            <?php if (isset($_GET['keyword'])) { ?>
+            <h2 class="text-center">Kết quả tìm kiếm cho: <?php echo $keyword ?></h2>
+            <?php } elseif (isset($_GET['danhmuc'])) { ?>
+            <h2>Thời trang <?php echo $danh_mu_c['ten_danhmuc'] ?></h2>
+            <?php } else { ?>
+            <h2 class="text-center bg-secondary text-light" style="border-radius: 5px;">Danh sách các sản phẩm</h2>
+            <?php } ?><br>
+            <div class="row">
+                <p></p>hêllooo</p>
+                <?php foreach ($product as $key => $value) { ?>
+                <a data-toggle="tooltip" title="Chi tiết sản phẩm !"
+                    href="?pages=chitietsanpham&sanpham=<?php echo $value['id_product'] ?>">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card text-left">
+                            <img class="img_product" src="<?php echo $value['anh_sanpham'] ?>" alt="">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $value['ten_sanpham'] ?></h4>
+                                <?php if ($value['gia_khuyenmai'] > 0) { ?>
+                                <p>
+                                    <span><del><?php echo number_format($value['gia_sanpham']) ?> VND</del></span>&nbsp;
+                                    Giảm:
+                                    <?php $khuyenmai = 100 - (($value['gia_khuyenmai']) / ($value['gia_sanpham']) * 100) ?>
+                                    <?php echo number_format($khuyenmai) ?>%
+                                </p>
+                                <p>
+                                    <span><?php echo number_format($value['gia_khuyenmai']) ?> VND</span>
+                                </p>
+                                <?php } else { ?>
+                                <p>
+                                    <span><?php echo number_format($value['gia_sanpham']) ?> VND</span>
+                                </p>
+                                <p>
+                                    <span>&nbsp;</span>
+                                </p>
+                                <?php } ?>
 
-                    </p>
-                    <p>
-                      <span>&nbsp;</span>
-                    </p>
-                  <?php } ?>
-
-                  <a class="" href=""></a>
-                  </p>
-
-                </div>
-              </div>
+                                <a class="" href=""></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <?php } ?>
             </div>
-          </a>
-        <?php } ?>
-      </div>
+        </div>
     </div>
-  </div>
-  <br>
-  <ul class="pagination justify-content-center">
-    <?php if ($cr_page > 1) { ?>
-      <li class="page-item"><a class="page-link" href="?pages=product&page=<?php echo $cr_page - 1 ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>">Trước</a></li>
-    <?php } ?>
-    <?php for ($i = 1; $i <= $total_page; $i++) { ?>
-      <li class="page-item <?php echo (($cr_page == $i) ? 'active' : '') ?>"><a class="page-link" href="?pages=product&page=<?php echo $i ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>"><?php echo $i ?></a></li>
-    <?php } ?>
-    <?php if ($cr_page < $total_page) { ?>
-      <li class="page-item"><a class="page-link" href="?pages=product&page=<?php echo $cr_page + 1 ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>">Sau</a></li>
-    <?php } ?>
-  </ul>
+    <br>
+    <ul class="pagination justify-content-center">
+        <?php if ($cr_page > 1) { ?>
+        <li class="page-item"><a class="page-link"
+                href="?pages=product&page=<?php echo $cr_page - 1 ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>">Trước</a>
+        </li>
+        <?php } ?>
+        <?php for ($i = 1; $i <= $total_page; $i++) { ?>
+        <li class="page-item <?php echo (($cr_page == $i) ? 'active' : '') ?>"><a class="page-link"
+                href="?pages=product&page=<?php echo $i ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>"><?php echo $i ?></a>
+        </li>
+        <?php } ?>
+        <?php if ($cr_page < $total_page) { ?>
+        <li class="page-item"><a class="page-link"
+                href="?pages=product&page=<?php echo $cr_page + 1 ?><?php echo ($keyword != '') ? "&keyword=$keyword" : '' ?>">Sau</a>
+        </li>
+        <?php } ?>
+    </ul>
 
-  <hr class="my-4">
+    <hr class="my-4">

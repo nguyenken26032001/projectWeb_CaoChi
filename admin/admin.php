@@ -19,7 +19,6 @@
     }
     }
 ?>
-
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link " href="index.php"><i class="fas fa-home"></i> Trang chính</a>
@@ -33,7 +32,6 @@
   <li class="nav-item">
     <a class="nav-link " href="carousel.php"><i class="fas fa-images"></i> Ảnh carousel</a>
   </li>
-
   <li class="nav-item">
     <a class="nav-link" href="users.php"><i class="fas fa-address-card"></i> Khách hàng</a>
   </li>
@@ -42,18 +40,12 @@
   </li>
 </ul>
 <br>
-
 <div class="row">
    <div class="col-4">
-
-
-
 <div class="card" style="width:400px">
     <img class="card-img-top" src="../images/icon/logo-footer-1.png" alt="Card image" style="width:100%">
     <div class="card-body">
       <h4 class="card-title"><?php echo $admin['name'] ?></h4>
-      <!-- <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-      <a href="#" class="btn btn-primary stretched-link">See Profile</a> -->
     </div>
   </div>
   </div>

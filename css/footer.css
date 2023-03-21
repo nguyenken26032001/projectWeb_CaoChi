@@ -1,0 +1,28 @@
+.infors {
+  display: flex;
+  flex-direction: column;
+}
+.infor {
+  display: flex;
+  align-items: center;
+}
+.info .footer-icons {
+  font-size: 20px;
+  object-fit: cover;
+}
+.infor i {
+  padding: 10px;
+  font-size: 18px;
+}
+.footer-infor-brand {
+  font-size: 25px;
+  font-weight: 600;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.footer-info-text {
+  font-size: 18px;
+}
+.CSKH {
+  padding: 10px;
+  font-size: 18px;
+}
