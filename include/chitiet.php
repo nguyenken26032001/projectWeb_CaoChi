@@ -41,21 +41,15 @@ if (isset($_GET['sanpham'])) {
             <strong class="title-product-detail">Số lượng: </strong> <input class="quantity" type="number" value="1"
                 name="quantity" min="1" max="<?php echo $sanpham['soluong'] ?>">
             <div class="buy-product mt-3">
-                <a class="btn btn-secondary" href="">Mua Ngay</a>
+                <a class="btn btn-secondary" href="?pages=muangay">Mua Ngay</a>
                 <a class="btn btn-danger mx-3" href=""
-                    onclick="addToCart($('#idProduct',).val(),$('#productName').text(),$('.price-detail').text(),$('.quantity').val())">Thêm
+                    onclick="addToCart($('#idProduct').val(),$('#productName').text(),$('.price-detail').text(),$('.quantity').val())">Thêm
                     vào giỏ hàng
                     !</a>
             </div>
         </div>
     </div>
 </div>
-<?php
-$index = 1;
-if (isset($_SESSION['noti']))
-    var_dump($_SESSION['noti'] . $index);
-$index++;
-?>
 <script>
 function addToCart(id, productName, price, quantity) {
     $.ajax({
@@ -69,12 +63,13 @@ function addToCart(id, productName, price, quantity) {
             quantity: quantity
         },
         success: function(data) {
+            // alert(data);
             event.preventDefault();
             <?php
                 $_SESSION['noti'] = "Sản phẩm đã được thêm vào giỏ hàng.";
                 $_SESSION['status_noti'] = "success";
                 ?>
-            history.pushState(null, null, '?pages=cart');
+            // history.pushState(null, null, '?pages=cart');
         },
     });
 }

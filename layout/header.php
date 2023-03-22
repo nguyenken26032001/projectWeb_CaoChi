@@ -62,7 +62,7 @@ if (isset($user['id'])) {
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <!--  -->
         <a data-toggle="tooltip" title="Tham quan các sản phẩm của chúng tôi!" class="navbar-brand header-infor-brand"
-            href="?pages=product">DANH VINH STORE</a>
+            href="?page=index">DANH VINH STORE</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -84,7 +84,7 @@ if (isset($user['id'])) {
         <?php } else { ?>
 
         <li class="nav-item ">
-            <a class="nav-link position-relative" href="?pages=dangnhap" data-toggle="tooltip" data-placement="top"
+            <a class="nav-link position-relative" href="?pages=viewCart" data-toggle="tooltip" data-placement="top"
                 title="Giỏ hàng">
                 <p class="cart-number"><?php
                                         $totalQuantity = 0;

@@ -59,6 +59,10 @@ switch ($pages) {
             require_once 'include/cart.php';
             break;
         }
+    case 'viewCart': {
+            require_once 'include/viewCart.php';
+            break;
+        }
     default: {
             require_once 'include/home.php';
         }
@@ -78,21 +82,3 @@ swal.fire({
     unset($_SESSION['status']);
     unset($_SESSION['status_code']);
 }
-if (isset($_SESSION['noti']) && $_SESSION['noti'] != '') {
-?>
-<script>
-swal.fire({
-    title: "",
-    text: "<?php echo $_SESSION['noti'] ?>",
-    icon: "<?php echo $_SESSION['status_noti'] ?>",
-    button: "ok",
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true,
-});
-</script>
-<?php
-    unset($_SESSION['noti']);
-    unset($_SESSION['status_noti']);
-}
-?>

@@ -56,3 +56,22 @@
 </body>
 
 </html>
+<?php
+if (isset($_SESSION['noti']) && $_SESSION['noti'] != '') {
+?>
+<script>
+swal.fire({
+    title: "",
+    text: "<?php echo $_SESSION['noti'] ?>",
+    icon: "<?php echo $_SESSION['status_noti'] ?>",
+    button: "ok",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+});
+</script>
+<?php
+}
+unset($_SESSION['noti']);
+unset($_SESSION['status_noti']);
+?>
