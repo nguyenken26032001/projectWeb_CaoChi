@@ -4,9 +4,11 @@ if (isset($_GET['sanpham'])) {
     $product = mysqli_query($conn, "SELECT * FROM product WHERE id_product = '$id_product'");
     $sanpham = mysqli_fetch_assoc($product);
     // $sanpham = executeResult("SELECT * FROM product WHERE id_product = '$id_product'");
-    // lấy ảnh mô tả 
+    // lấy ảnh mô tả
     $img_pro = mysqli_query($conn, "SELECT * FROM img_product WHERE id_product = $id_product");
+    $muangay= "?pages=muangay&id_product=".$sanpham['id_product'];
 }
+
 ?>
 <br>
 <div class="container-fluid">
@@ -14,6 +16,7 @@ if (isset($_GET['sanpham'])) {
         <div class="col-md-4 mb-5">
             <img id="zoom" class="card-img-top rounded" src="<?php echo $sanpham['anh_sanpham'] ?>" alt="">
         </div>
+        <form action="?pages=muangay" method="post">
         <div class="col-md-8">
             <div class="card-body-ml-auto">
                 <input type="hidden" name="idProduct" id="idProduct" value="<?php echo $sanpham['id_product'] ?>">
@@ -41,13 +44,15 @@ if (isset($_GET['sanpham'])) {
             <strong class="title-product-detail">Số lượng: </strong> <input class="quantity" type="number" value="1"
                 name="quantity" min="1" max="<?php echo $sanpham['soluong'] ?>">
             <div class="buy-product mt-3">
-                <a class="btn btn-secondary" href="?pages=muangay">Mua Ngay</a>
+
+                <input type="submit" value="Mua ngay" name="ThanhToanSP">
                 <a class="btn btn-danger mx-3" href=""
                     onclick="addToCart($('#idProduct').val(),$('#productName').text(),$('.price-detail').text(),$('.quantity').val())">Thêm
                     vào giỏ hàng
                     !</a>
             </div>
         </div>
+        </form>
     </div>
 </div>
 <script>

@@ -47,20 +47,23 @@ if (isset($_POST['submit'])) {
 if($dat_hang) {
     header('location: ?pages=kiemtra_donhang');
 }
-    
+
   }
 }
 
-if(isset($_GET['id_san_pham'])) {
-  $id_sanpham = $_GET['id_san_pham'];
-
-
+if(isset($_GET['id_product'])) {
+  $id_sanpham = $_GET['id_product'];
 
 }
 
+if(isset($_POST['ThanhToanSP'])){
+    $idsp=$_POST['idProduct'];
+    $soluong_sp=$_POST['quantity'];
 
+    $ThongTinSP=mysqli_query($conn,"SELECT ten_sanpham,gia_sanpham from product WHERE id_product='$idsp '");
+    $sanpham = mysqli_fetch_assoc($ThongTinSP);
 
-
+}
 ?>
 
 
@@ -84,10 +87,10 @@ if(isset($_GET['id_san_pham'])) {
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
 
-                <h6 class="my-0"><?php echo $san_pham['ten_sanpham']  ?></h6>
-                <small class="text-muted"><?php echo $soluong?> Cái, &nbsp; </small>
+                <h6 class="my-0"><?php echo $sanpham['ten_sanpham']  ?></h6>
+                <small class="text-muted"><?php echo $soluong_sp ?> Cái, &nbsp; </small>
               </div>
-              <span class="text-muted"><?php echo number_format($giasanpham = $soluong * $gia_sanpham) ?> VND</span>
+              <span class="text-muted"><?php echo number_format($giasanpham = $soluong_sp  * $sanpham['gia_sanpham']) ?> VND</span>
             </li>
 
 
@@ -154,7 +157,7 @@ if(isset($_GET['id_san_pham'])) {
             </div>
             <div class="custom-control custom-radio">
               <input id="debit" name="thanhtoan" value="1" type="radio" class="custom-control-input" required="">
-              <label class="custom-control-label" for="debit">Bank tiền thẻ (cái này thì chưa có nghe)</label>
+              <label class="custom-control-label" for="debit">Bank tiền thẻ (cái này thì chưa có nghe)<span style="color: red;"> Chán ạ</span></label>
             </div>
 
           </div>
@@ -165,7 +168,7 @@ if(isset($_GET['id_san_pham'])) {
 
           <button onclick="return confirm('Thanh toán đơn hàng này !');" class="btn btn-secondary btn-lg btn-block" name="submit" type="submit">Đặt hàng</button>
           <br>
-         
+
           <div class="row">
           <input type="text" hidden name="id_user" value="<?php echo 0 ?>">
 
