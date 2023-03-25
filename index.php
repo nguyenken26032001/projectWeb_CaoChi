@@ -1,4 +1,6 @@
 <?php
+setcookie('order_success', '', time() - 3600);
+setcookie('addToCart', '', time() - 3600);
 // require_once 'config/connect.php';
 require_once 'config/functionHelper.php';
 
@@ -63,12 +65,56 @@ switch ($pages) {
             require_once 'include/viewCart.php';
             break;
         }
+    case 'dumpProductBuy': {
+            require_once 'include/dumpProductBuy.php';
+            break;
+        }
     default: {
             require_once 'include/home.php';
         }
 }
 require_once 'layout/footer.php';
+if (isset($_COOKIE['addToCart']) && $_COOKIE['addToCart'] == 1) {
+    $_SESSION['noti'] = "Thêm giỏ hàng thành công";
+    $_SESSION['status_noti'] = "success";
+}
+?>
+<script>
+swal.fire({
+    title: "",
+    text: "<?php echo $_SESSION['noti'] ?>",
+    icon: "<?php echo $_SESSION['status_noti'] ?>",
+    button: "ok",
+    showConfirmButton: false,
+    timer: 1000,
+    timerProgressBar: true,
+});
+</script>
+<?php
+unset($_SESSION['noti']);
+unset($_SESSION['status_noti']);
+if (isset($_COOKIE['order_success']) && $_COOKIE['order_success'] == 1) {
+    $_SESSION['noti'] = "Đặt hàng thành công. Cảm ơn quý khách.";
+    $_SESSION['status_noti'] = "success";
+}
+?>
+<script>
+swal.fire({
+    title: "",
+    text: "<?php echo $_SESSION['noti'] ?>",
+    icon: "<?php echo $_SESSION['status_noti'] ?>",
+    button: "ok",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+});
+</script>
+<?php
+unset($_SESSION['noti']);
+unset($_SESSION['status_noti']);
+
 if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
+    var_dump($_SESSION['status']);
 ?>
 <script>
 swal.fire({

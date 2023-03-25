@@ -1,90 +1,71 @@
 <?php
-
-// $query_user = mysqli_query($conn,"SELECT * FROM users WHERE id = '$id_user'");
-// $khachhang = mysqli_fetch_assoc($query_user);
-
-
-$trangthai = 0;
-
-if (isset($_POST['submit'])) {
-  $phone = $_POST['phone'];
-  $diachi = $_POST['diachi'];
-  $name = $_POST['name'];
-  $ghichu = $_POST['ghichu'];
-  $thanhtoan = $_POST['thanhtoan'];
-  $id_user = $_POST['id_user'];
-  $rd_mahang = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $ma_donhang = '01' . substr(str_shuffle($rd_mahang), 0, 10);
-
-
-  $diachi_donhang = mysqli_query($conn, "INSERT INTO diachi_donhang(ma_donhang,id_user,phone,diachi,ghichu,thanhtoan,trang_thai,name)
-  VALUES ('$ma_donhang','$id_user','$phone','$diachi','$ghichu','$thanhtoan','$trangthai','$name')");
-
-  if ($diachi) {
-
-    for ($i = 0; $i < count($_POST['id_product']); $i++) {
-      $id_product = $_POST['id_product'][$i];
-      $soluong = $_POST['quantity'][$i];
-      $gia_sanpham = $_POST['gia_sanpham'][$i];
-
-      $dat_hang = mysqli_query($conn, "INSERT INTO donhang(ma_donhang,id_product,id_user,soluong,gia_sanpham,trang_thai) VALUES
-      ('$ma_donhang','$id_product','$id_user','$soluong','$gia_sanpham','$trangthai')");
-
-      if ($dat_hang) {
-        $xoa_giohang = mysqli_query($conn, "DELETE FROM giohang WHERE id_user = '$id_user'");
-        if ($xoa_giohang) {
-          header('location: ?pages=users');
-        }
-      }
-    }
-  }
+$carts = $_SESSION['productBuy'];
+// print_r("<pre>");
+// print_r($carts);
+// print_r("</pre>");
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'][0];
 }
-
-
-
-
-
+$totalProduct = sizeof($carts);
+$trangthai = 0;
+if (isset($_POST['submit'])) {
+    $phone = '0' . $_POST['phone'];
+    $diachi = $_POST['diachi'];
+    $name_nguoiDatHang = $_POST['name'];
+    $ghichu = $_POST['ghichu'] ? $_POST['ghichu'] : "";
+    $thanhtoan = $_POST['thanhtoan'];
+    $id_user = $_POST['id_user'];
+    $rd_mahang = 'DANHVINHSTORE-haTinh';
+    // $ma_donhang = '01' . substr(str_shuffle($rd_mahang), 0, 10);
+    $ma_donhang = $rd_mahang . '-' . uniqid();
+    $diachi_donhang = mysqli_query($conn, "INSERT INTO diachi_donhang(ma_donhang,id_user,phone,diachi,ghichu,thanhtoan,trang_thai,name_nguoidat)
+  VALUES('$ma_donhang','$id_user','$phone','$diachi','$ghichu','$thanhtoan','$trangthai','$name_nguoiDatHang')");
+    if ($diachi) {
+        for ($i = 0; $i < count($_POST['id_product']); $i++) {
+            $id_product = $_POST['id_product'][$i];
+            $soluong = $_POST['quantity'][$i];
+            $gia_sanpham = $_POST['gia_sanpham'][$i];
+            mysqli_query($conn, "INSERT INTO donhang(ma_donhang,id_product,id_user,soluong,gia_sanpham,trang_thai) VALUES
+      ('$ma_donhang','$id_product','$id_user','$soluong','$gia_sanpham','$trangthai')");
+        }
+    }
+    setcookie('order_success', '1', time() + 3600);
+    header('location: ?pages=index');
+}
 ?>
 
-
-
 <body class="bg-light">
-
     <div class="container">
         <div class="py-5 text-center">
-
-
-
             <h2><img src="../images/icon/pair-of-bills.png" width="40px" alt=""> Thanh toán cho đơn hàng của bạn</h2>
-
         </div>
-
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted"><img src="../images/icon/cart.png" width="40px" alt=""> Giỏ hàng của
                         bạn</span>
-                    <span class="badge badge-secondary badge-pill"><?php echo mysqli_num_rows($giohang) ?></span>
+                    <span class="badge badge-secondary badge-pill"><?php echo $totalProduct ?> sản phẩm</span>
                 </h4>
                 <ul class="list-group mb-3">
                     <?php $total = 0;
-          $giasanpham = 0;
-          foreach ($giohang as $key => $value) {  ?>
+                    $giasanpham = 0;
+                    $index = 0;
+                    foreach ($carts as $key => $value) {  ?>
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-
                             <h6 class="my-0"><span
-                                    class="badge badge-secondary badge-pill"><?php echo $key + 1 ?></span>
-                                <?php echo $value['ten_sanpham'] ?></h6>
-
-                            <small class="text-muted"><?php echo $value['soluong'] ?> Cái, &nbsp; </small>
+                                    class="badge badge-secondary badge-pill"><?php echo ++$index ?></span>
+                                <?php echo $value['productName'] ?>
+                            </h6>
+                            <img src="<?php echo $value['image'] ?>" alt="" class="mt-2" width="40px">
+                            <small class="text-muted"><?php echo $value['quantity'] ?> Cái, &nbsp; </small>
                         </div>
                         <span
-                            class="text-muted"><?php echo number_format($giasanpham = $value['gia_sanpham'] * $value['soluong']) ?>
+                            class="text-muted"><?php echo number_format($giasanpham = $value['price'] * $value['quantity']) ?>
                             VND</span>
                     </li>
                     <?php $total += $giasanpham;
-          }  ?>
+                    }  ?>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Tổng cộng (VND)</span>
                         <strong><?php echo number_format($total) ?> VND</strong>
@@ -94,33 +75,20 @@ if (isset($_POST['submit'])) {
 
             <div class="col-md-8 order-md-1">
                 <h4 class="mb-3">Địa chỉ thanh toán</h4>
-
                 <form class="needs-validation" novalidate="" method="POST" action="">
-
 
                     <div class="mb-3">
                         <label for="Name">Tên</label>
                         <input type="text" class="form-control" id="Name" placeholder="Tên người dùng"
-                            value="<?php echo $user['name']; ?>" required="" name="name">
+                            value="<?php if (isset($user['name'])) echo $user['name'] ?>" required="" name="name">
                         <div class="invalid-feedback">
                             Không được bỏ trống trường này.
                         </div>
                     </div>
-
-
-                    <div class="mb-3">
-                        <label for="email">Email <span class="text-muted" _istranslated="1">(Tùy chọn)</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                            value="<?php echo $user['email']; ?>" name="email">
-                        <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                        </div>
-                    </div>
-
                     <div class="mb-3">
                         <label for="sdt">Số điện thoại</label>
-                        <input type="text" class="form-control" id="sdt" placeholder="Số điện thoại người dùng" value=""
-                            required="" name="phone">
+                        <input type="text" class="form-control" id="sdt" placeholder="Số điện thoại người dùng"
+                            value="<?php if (isset($user['sdt'])) echo $user['sdt'] ?>" required="" name="phone">
                         <div class="invalid-feedback">
                             Không được bỏ trống trường này.
                         </div>
@@ -139,12 +107,9 @@ if (isset($_POST['submit'])) {
                     <div class="mb-3">
                         <label for="username">Ghi chú</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
+                            <div class="input-group">
                             </div>
-                            <input type="text" class="form-control" id="username" required="" name="ghichu">
-                            <div class="invalid-feedback" style="width: 100%;">
-                                Không được bỏ trống trường này.
-                            </div>
+                            <input type="text" class="form-control" id="username" name="ghichu">
                         </div>
                     </div>
 
@@ -162,14 +127,15 @@ if (isset($_POST['submit'])) {
                     <br>
 
                     <div class="row">
-                        <input type="text" hidden name="id_user" value="<?php echo $user['id'] ?>">
-                        <input type="text" hidden name="name" value="<?php echo $user['name'] ?>">
-                        <?php foreach ($giohang as $key => $value) { ?>
+                        <input type="text" hidden name="id_user"
+                            value="<?php if (isset($user['id'])) echo $user['id'] ?>">
+                        <input type="text" hidden name="name"
+                            value="<?php if (isset($user['name'])) echo $user['name'] ?>">
+                        <?php foreach ($carts as $key => $value) { ?>
 
-
-                        <input type="text" hidden name="quantity[]" value="<?php echo $value['soluong'] ?>">
-                        <input type="text" hidden name="gia_sanpham[]" value="<?php echo $value['gia_sanpham'] ?>">
-                        <input type="text" hidden name="id_product[]" value="<?php echo $value['id_product'] ?>">
+                        <input type="text" hidden name="quantity[]" value="<?php echo $value['quantity'] ?>">
+                        <input type="text" hidden name="gia_sanpham[]" value="<?php echo $value['price'] ?>">
+                        <input type="text" hidden name="id_product[]" value="<?php echo $value['id'] ?>">
                         <?php } ?>
                     </div>
 

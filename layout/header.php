@@ -88,7 +88,7 @@ if (isset($user['id'])) {
                 title="Giỏ hàng">
                 <p class="cart-number"><?php
                                         $totalQuantity = 0;
-                                        if (isset($_SESSION['cart'])) {
+                                        if (isset($_SESSION['cart']) && $_SESSION['cart'] != []) {
                                             $cart = $_SESSION['cart'];
                                             foreach ($cart as $item) {
                                                 $totalQuantity += $item['quantity'];

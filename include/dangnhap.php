@@ -7,13 +7,12 @@ if (isset($_POST['email'])) {
   $data = executeResult("SELECT * FROM users WHERE email = '$email' and password = '$password'");
   if ($data) {
     $_SESSION['user'] = $data;
-    header('location: ?pages=users');
+    header('location: ?pages=index');
   } else {
     $_SESSION['status'] = "Email hoặc mật khẩu không đúng vui lòng kiểm tra lại";
     $_SESSION['status_code'] = "error";
   }
 }
-
 $user = (isset($_SESSION['user'])) ? $_SESSION['user'] : [];
 if (isset($user['name'])) {
   header('location: ?pages=users');

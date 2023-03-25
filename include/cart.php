@@ -38,3 +38,20 @@ if ($action == 'delete') {
     unset($_SESSION['cart'][$id]);
     echo "okko";
 }
+if ($action == "productBuy") {
+    $productBuy = $_SESSION['cart'][$id];
+    $_SESSION['productBuy'][$id] = $productBuy;
+}
+if ($action == "IsProductBuy") {
+    if (isset($_SESSION['productBuy'][$id])) {
+        unset($_SESSION['productBuy'][$id]);
+    }
+}
+if ($action == "checkAll") {
+    $_SESSION['productBuy'] = $_SESSION['cart'];
+    $tongtien = 0;
+    foreach ($productBuy as $item) {
+        $tongtien += $item['price'] * $item['quantity'];
+    }
+    // echo json_encode(array("tongtien" => $tongtien));
+}
